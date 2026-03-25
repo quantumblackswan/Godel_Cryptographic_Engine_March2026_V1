@@ -16,15 +16,13 @@ geometry: margin=1in
 
 We describe a commitment framework that combines an ordinary post-quantum cryptographic body with a proof-carrying logical annotation layer. The cryptographic body is built around ML-KEM-768 as a key-encapsulation mechanism plus a one-bit masking layer and a transcript hash. The logical layer attaches a canonical arithmetic formula encoding the opening relation and uses Gödel numbering only to define a proof-carrying meta-security game; it does not replace ordinary computational security reductions. In this formulation, hiding and binding remain conventional and are argued at the concrete cryptographic layer, while the additional claim is narrower: a successful *certified* double opening must also be accompanied by a formal proof inside a fixed theory that both openings verify. Under standard representability assumptions, such a certified attack would amount to a proof of a false arithmetic statement whenever the concrete cryptographic layer has not already failed.
 
-The paper is deliberately conservative. It does not claim information-theoretic security, production readiness, constant-time behavior for the Python orchestration layer, or a complete IND-CPA, IND-CCA, or UC proof of the full construction. Instead, it focuses on three practical deliverables: an arXiv-friendly manuscript, a public reference repository, and measured reproducibility artifacts. We report an archived last-good baseline line, a second archived continuity line, a current environment rerun on the legacy ML-KEM alpha route, and a wrapper-portability audit for keeper-ML-KEM and libfips203 skeleton adapters. The result is a clearer separation between what has been formalized, what has been implemented, and what remains future work.
+The paper is deliberately conservative. It does not claim information-theoretic security, production readiness, constant-time behavior for the Python orchestration layer, or a complete IND-CPA, IND-CCA, or UC proof of the full construction. Instead, it focuses on three practical deliverables: a research-based manuscript, a public reference repository, and measured reproducibility artifacts. We report an archived last-good baseline line, a second archived continuity line, a current environment rerun on the legacy ML-KEM alpha route, and a wrapper-portability audit for keeper-ML-KEM and libfips203 skeleton adapters. The result is a clearer separation between what has been formalized, what has been implemented, and what remains future work.
 
 # 1. Introduction
 
 Modern post-quantum cryptography is built on computational assumptions, and that is the correct baseline. The natural question explored here is not whether Gödel's incompleteness theorem can magically strengthen ciphertexts by itself, but whether a *proof-carrying* variant of a standard commitment system can cleanly separate two layers of failure. The first layer is conventional cryptographic failure: for example, a hiding or binding break under an implementation or assumption-level attack. The second layer is logical certification of that failure: an adversary not only outputs two openings to the same commitment, but also outputs a formal derivation inside a fixed theory certifying that both openings verify.
 
 That second requirement is where incompleteness enters. The verifier for the commitment is decidable. Therefore the statement “this commitment admits two distinct valid openings” can be represented in arithmetic. If the concrete cryptographic layer is still behaving as intended, then the represented sentence is false. A proof-carrying adversary is therefore trying to package a cryptographic event together with a formal proof of a false statement. The point of the framework is not to replace standard cryptographic analysis. The point is to isolate a narrow and explicit interface between conventional cryptography and proof theory.
-
-The manuscript is written against a concrete practical problem: earlier drafts mixed cryptographic claims, package claims, and broader speculative material too aggressively. This version deliberately tightens scope. Older package-specific mentions have been removed. The software is described as an experimental reference prototype. Secret-dependent work is described as delegated to the KEM backend rather than to Python glue. A manuscript claim-guard script has been added so that high-risk overclaim language, unsupported deployment language, or category-driven positioning language cannot silently creep back into the paper.
 
 # 2. Contributions and scope discipline
 
@@ -36,8 +34,6 @@ The paper makes six bounded contributions.
 4. It publishes a public repository with scripts for backend probing, smoke tests, proof-bundle checks, benchmark runs, and a manuscript claim guard.
 5. It records archived benchmark lines for continuity and adds a current rerun line from the present workspace.
 6. It performs a wrapper portability audit for keeper-ML-KEM and libfips203 skeleton adapters and records the exact observed failure modes.
-
-The scope discipline matters. The wider Q-Bond / TICE / Floquet / κ-meter corpus includes many ambitious materials spanning quantum control, metrology, and information-curvature ideas, including broad technical notebooks and patent-style drafts. That material is real context for the project as a whole, but importing those claims directly into a cryptography paper would weaken rather than strengthen the present manuscript. This draft therefore borrows only one lesson from that larger corpus: the emphasis on packaging code, measurements, and reproducibility artifacts together with the text. The concrete cryptography claims stand on their own and are intentionally narrower than many of the adjacent research narratives.
 
 # 3. Model and construction
 
@@ -113,8 +109,6 @@ ho$ | 32 B | nonce derived from randomness and ciphertext |
 | Transcript digest $c_G$ | 32 B | SHA3-256 over canonical statement and opening data |
 | **Total** | **1153 B** | current commitment size |
 
-That 1153-byte size remains stable across the archived benchmark lines and the current workspace rerun line.
-
 ## 5.3 Public repository contents
 
 The public repository accompanying this paper includes the following items.
@@ -130,8 +124,6 @@ The public repository accompanying this paper includes the following items.
 - `scripts/04_cross_backend_validate.py`: compare multiple backend lanes.
 - `scripts/05_probe_wrapper_status.py`: probe the skeleton wrappers and record exact availability or failure modes.
 - `scripts/check_claims.py`: fail if banned phrases or missing disclaimer language appear in the manuscript.
-
-The claim guard is not cosmetic. It exists because earlier drafts drifted too easily into language that was not supported by the implementation or by the threat model.
 
 # 6. Measured results
 
@@ -162,24 +154,19 @@ The repository also preserves an earlier keeper-backed benchmark artifact from a
 
 # 7. Wrapper portability audit
 
-A major change in this revision is that the wrapper story is written down honestly. Instead of simply saying that keeper-ML-KEM and libfips203 skeleton wrappers exist, the repository now includes dedicated wrapper skeleton files and a probe script that records what happened when they were exercised in the current environment.
+A major change from previous drafts is that the wrapper story is written down honestly. Instead of simply saying that keeper-ML-KEM and libfips203 skeleton wrappers exist, the repository now includes dedicated wrapper skeleton files and a probe script that records what happened when they were exercised in the current environment.
 
 | Wrapper probe | Current status | Observed result |
 |---|---|---|
 | `keeper_mlkem_skeleton` | unavailable | the installed `mlkem` package in this workspace does not export `ML_KEM` and `MLKEM_768_PARAMETERS` at the expected top level |
 | `libfips203_skeleton` | unavailable | the Python package `fips203` is not installed in the current workspace |
 
-This is a better result than vague optimism. It gives a future maintainer two exact portability tasks: either install the Keeper-style package that matches the documented API, or adjust the wrapper to the actually installed module layout; and separately install the native `libfips203` shared library in a location the Python binding can load.
-
-The wrapper results are captured in JSON files in `results/wrapper_probe_keeper_mlkem_skeleton.json`, `results/wrapper_probe_libfips203_skeleton.json`, and `results/wrapper_probe_bundle.json`.
-
+.
 # 8. Reproducibility safeguards
 
 The repository is intended to be uploadable as a public GitHub project rather than as an internal scratch directory. To support that use case, the paper and repository now include the following reproducibility safeguards.
 
 First, the benchmark and probe results are stored as JSON rather than only as prose. Second, the claim-guard script checks for both banned phrases and missing disclaimer language. The script fails the build if unsupported deployment language or off-scope positioning language is reintroduced. Third, a minimal GitHub Actions workflow is included so that basic checks run automatically on push. Fourth, the manuscript and repository both keep the same sharp distinction between archived continuity lines and current reruns.
-
-These safeguards matter because the main failure mode of this project is not lack of ideas; it is drift between the paper, the code, and the measured artifacts. The present revision is explicitly designed to reduce that drift.
 
 # 9. Relation to the broader research corpus
 
@@ -201,17 +188,11 @@ We do not claim constant-time behavior for the Python orchestration layer.
 5. **Wrapper maturity is incomplete.** The keeper-style and libfips203 wrapper skeletons are useful, but the present environment probe shows that neither is turnkey in this workspace.
 6. **Archived lines are not present reruns.** The continuity lines are preserved because they were explicitly requested, but they must not be confused with measurements produced by the current rerun environment.
 
-The next concrete steps are straightforward: complete a full computational proof in a standard framework; stabilize one native ML-KEM backend that works reproducibly in CI; add deterministic test vectors; and, only after that, evaluate constant-time behavior at the compiled binary layer rather than at the Python layer.
-
 # 11. Conclusion
 
-The cleaned-up picture is better than the earlier one. We now have a narrower and more honest manuscript, a public repository that reflects the paper, archived continuity lines preserved without being relabeled, a current workspace rerun line, and explicit wrapper-portability probe results. The cryptographic body remains ordinary and post-quantum. The incompleteness component remains a meta-security layer for proof-carrying adversaries only. That separation is the main intellectual contribution of the paper, and the reproducibility tooling is the main practical contribution.
-
-This version should therefore be understood as a ten-page research prototype paper with artifacts, not as a final cryptographic proof package. That framing is more modest, but it is also much stronger.
+This is Q-Bond Network's public repository that reflects the paper, archived continuity lines preserved without being relabeled, a current workspace rerun line, and explicit wrapper-portability probe results. The cryptographic body remains ordinary and post-quantum. The incompleteness component remains a meta-security layer for proof-carrying adversaries only. That separation is the main intellectual contribution of the paper, and the reproducibility tooling is the main practical contribution.
 
 # 12. Artifact inventory and workflow
-
-For a public repository to be useful, a reader needs to know exactly which script produced which artifact. This revision therefore keeps a simple one-script-per-purpose layout.
 
 | Script | Purpose | Primary output |
 |---|---|---|
@@ -223,9 +204,6 @@ For a public repository to be useful, a reader needs to know exactly which scrip
 | `05_probe_wrapper_status.py` | keeper/libfips203 skeleton-wrapper audit | `wrapper_probe_bundle.json` |
 | `check_claims.py` | manuscript language guard | process exit code and console report |
 
-A reviewer can therefore reproduce the repository evidence in a predictable order: probe the selected backend, run the smoke test, run the proof bundle, run the benchmark, then run the wrapper-portability audit. The claim guard belongs in the same workflow because the paper is part of the artifact surface. If the claim language drifts while the code stays the same, the artifact package has still become less trustworthy.
-
-The result files are intentionally plain JSON. They are meant to be diffable in version control, easy to upload as GitHub Actions artifacts, and easy to quote selectively in the manuscript. This is also why the paper includes both archived continuity lines and current rerun lines. The goal is not to present one perfect number. The goal is to preserve provenance.
 
 # 13. Threats to validity
 
@@ -236,8 +214,6 @@ First, backend availability is environment-sensitive. The current workspace can 
 Second, microbenchmarks are fragile. Numbers in the sub-millisecond range depend on interpreter version, CPU state, package build options, and whether a fast path or pure-Python path was selected. For that reason, the paper does not claim that 0.401 ms or 0.566 ms is the uniquely correct key-generation number. It claims only that those lines were observed in the stated artifact trail and that the 1153-byte wire format remained stable across them.
 
 Third, proof-carrying language can easily be misunderstood. Readers may overread the term “Gödel-hardness” and assume it means a new unconditional cryptographic hardness class. That is not what is being claimed. The paper uses the term only for the certified-adversary game in which the attacker is required to provide a formal proof of the bad event. Outside that game, the scheme lives or dies by ordinary post-quantum cryptographic reasoning.
-
-These threats to validity are not embarrassing edge cases. They are part of the honest shape of the current work. Recording them improves the paper.
 
 # References
 
