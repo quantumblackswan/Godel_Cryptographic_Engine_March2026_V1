@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the paper and the software artifact."
+title: "GCE Reference Prototype"
+abstract: "Public research repository for an ML-KEM-768-based incompleteness-secured commitment prototype, including manuscript source, reproducibility scripts, benchmarks, and wrapper portability probes."
+type: software
+authors:
+  - family-names: Miller
+    given-names: Kevin Henry
+    email: kevin@qbondnetwork.com
+repository-code: "https://github.com/quantumblackswan/Godel_Cryptographic_Engine_March2026_V1"
+license: "BUSL-1.1"
+version: "public-artifact-2026-03-26"
+date-released: 2026-03-26
+preferred-citation:
+  type: article
+  authors:
+    - family-names: Miller
+      given-names: Kevin Henry
+      email: kevin@qbondnetwork.com
+  title: "Incompleteness-Secured Commitments: a Dual-Layer Post-Quantum Framework with Reproducibility Guards, Wrapper Portability Probes, and an ML-KEM-768 Reference Prototype"
+  journal: "Preprint"
+  year: 2026
+  month: 3
+  url: "https://github.com/quantumblackswan/Godel_Cryptographic_Engine_March2026_V1/tree/main/paper"
+keywords:
+  - post-quantum cryptography
+  - ML-KEM
+  - commitments
+  - reproducibility
+  - research artifact

@@ -1,0 +1,13 @@
+{
+  "backend": "legacy_mlkem_alpha",
+  "trials": 20,
+  "keygen_ms": 0.407,
+  "commit_ms": 0.627,
+  "verify_ms": 0.018,
+  "open_ms": 0.658,
+  "keygen_stdev_ms": 0.106,
+  "commit_stdev_ms": 0.082,
+  "verify_stdev_ms": 0.005,
+  "open_stdev_ms": 0.086,
+  "commitment_size_bytes": 1153
+}

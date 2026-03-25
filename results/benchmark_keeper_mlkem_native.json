@@ -1,0 +1,13 @@
+{
+  "backend": "keeper_mlkem_native",
+  "trials": 30,
+  "keygen_ms": 0.302,
+  "commit_ms": 0.452,
+  "verify_ms": 0.011,
+  "open_ms": 0.489,
+  "keygen_stdev_ms": 0.051,
+  "commit_stdev_ms": 0.018,
+  "verify_stdev_ms": 0.002,
+  "open_stdev_ms": 0.02,
+  "commitment_size_bytes": 1153
+}

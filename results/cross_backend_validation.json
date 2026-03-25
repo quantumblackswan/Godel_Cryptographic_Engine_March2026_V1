@@ -1,0 +1,117 @@
+{
+  "runs": [
+    {
+      "backend": "keeper_mlkem_native",
+      "backend_probe": {
+        "backend": "keeper_mlkem_native",
+        "status": "research-friendly, stronger third-party backend",
+        "security_level": 768,
+        "public_key_bytes": 1184,
+        "private_key_bytes": 2400,
+        "kem_ciphertext_bytes": 1088,
+        "commitment_body_bytes": 1121,
+        "godel_hash_bytes": 32,
+        "approx_total_commitment_bytes": 1153,
+        "selected_backend_argument": "keeper_mlkem_native"
+      },
+      "smoke_test": {
+        "backend": "keeper_mlkem_native",
+        "verify": true,
+        "opened_bit": 1,
+        "commitment_size_bytes": 1153
+      },
+      "proof_bundle": {
+        "backend": "keeper_mlkem_native",
+        "round_trip": "20/20",
+        "wrong_opening_rejected": "20/20",
+        "tamper_detected": "20/20",
+        "godel_number_uniqueness_sample": "20/20 unique",
+        "backend_presence_test": {
+          "passes": 20,
+          "time_s": 0.016423
+        }
+      },
+      "benchmark": {
+        "backend": "keeper_mlkem_native",
+        "trials": 20,
+        "keygen_ms": 0.343,
+        "commit_ms": 0.503,
+        "verify_ms": 0.011,
+        "open_ms": 0.514,
+        "keygen_stdev_ms": 0.09,
+        "commit_stdev_ms": 0.049,
+        "verify_stdev_ms": 0.003,
+        "open_stdev_ms": 0.017,
+        "commitment_size_bytes": 1153
+      }
+    },
+    {
+      "backend": "legacy_mlkem_alpha",
+      "backend_probe": {
+        "backend": "legacy_mlkem_alpha",
+        "status": "experimental",
+        "security_level": 768,
+        "public_key_bytes": 1184,
+        "private_key_bytes": 2400,
+        "kem_ciphertext_bytes": 1088,
+        "commitment_body_bytes": 1121,
+        "godel_hash_bytes": 32,
+        "approx_total_commitment_bytes": 1153,
+        "selected_backend_argument": "legacy_mlkem_alpha"
+      },
+      "smoke_test": {
+        "backend": "legacy_mlkem_alpha",
+        "verify": true,
+        "opened_bit": 1,
+        "commitment_size_bytes": 1153
+      },
+      "proof_bundle": {
+        "backend": "legacy_mlkem_alpha",
+        "round_trip": "20/20",
+        "wrong_opening_rejected": "20/20",
+        "tamper_detected": "20/20",
+        "godel_number_uniqueness_sample": "20/20 unique",
+        "backend_presence_test": {
+          "passes": 20,
+          "time_s": 0.015837
+        }
+      },
+      "benchmark": {
+        "backend": "legacy_mlkem_alpha",
+        "trials": 20,
+        "keygen_ms": 0.314,
+        "commit_ms": 0.477,
+        "verify_ms": 0.011,
+        "open_ms": 0.513,
+        "keygen_stdev_ms": 0.048,
+        "commit_stdev_ms": 0.028,
+        "verify_stdev_ms": 0.003,
+        "open_stdev_ms": 0.057,
+        "commitment_size_bytes": 1153
+      }
+    },
+    {
+      "backend": "libfips203_wrapper",
+      "backend_probe": {
+        "status": "unavailable",
+        "stderr": "Traceback (most recent call last):\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/kem_backends.py\", line 87, in __init__\n    import fips203\n  File \"/opt/pyvenv/lib/python3.13/site-packages/fips203.py\", line 304, in <module>\n    class _ML_KEM():\n    ...<110 lines>...\n            return (ek, dk)\n  File \"/opt/pyvenv/lib/python3.13/site-packages/fips203.py\", line 327, in _ML_KEM\n    lib = ctypes.CDLL(\"../../target/debug/libfips203.so\")\n  File \"/usr/lib/python3.13/ctypes/__init__.py\", line 390, in __init__\n    self._handle = _dlopen(self._name, mode)\n                   ~~~~~~~^^^^^^^^^^^^^^^^^^\nOSError: ../../target/debug/libfips203.so: cannot open shared object file: No such file or directory\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/mnt/data/gce_public_repo/scripts/00_backend_probe.py\", line 8, in <module>\n    eng=GodelCryptoEngine(backend_name=backend)\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/engine.py\", line 37, in __init__\n    self.kem=KemBackend(backend_name=backend_name, security_level=security_level)\n             ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/kem_backends.py\", line 118, in __init__\n    self._backend = self._select(backend_name)\n                    ~~~~~~~~~~~~^^^^^^^^^^^^^^\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/kem_backends.py\", line 121, in _select\n    if backend_name!='auto': return BACKEND_REGISTRY[backend_name]()\n                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/kem_backends.py\", line 89, in __init__\n    raise BackendUnavailable(f'fips203 import failed: {e}')\ngce.kem_backends.BackendUnavailable: fips203 import failed: ../../target/debug/libfips203.so: cannot open shared object file: No such file or directory",
+        "stdout": ""
+      },
+      "smoke_test": {
+        "status": "unavailable",
+        "stderr": "Traceback (most recent call last):\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/kem_backends.py\", line 87, in __init__\n    import fips203\n  File \"/opt/pyvenv/lib/python3.13/site-packages/fips203.py\", line 304, in <module>\n    class _ML_KEM():\n    ...<110 lines>...\n            return (ek, dk)\n  File \"/opt/pyvenv/lib/python3.13/site-packages/fips203.py\", line 327, in _ML_KEM\n    lib = ctypes.CDLL(\"../../target/debug/libfips203.so\")\n  File \"/usr/lib/python3.13/ctypes/__init__.py\", line 390, in __init__\n    self._handle = _dlopen(self._name, mode)\n                   ~~~~~~~^^^^^^^^^^^^^^^^^^\nOSError: ../../target/debug/libfips203.so: cannot open shared object file: No such file or directory\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/mnt/data/gce_public_repo/scripts/01_smoke_test.py\", line 8, in <module>\n    eng=GodelCryptoEngine(backend_name=backend)\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/engine.py\", line 37, in __init__\n    self.kem=KemBackend(backend_name=backend_name, security_level=security_level)\n             ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/kem_backends.py\", line 118, in __init__\n    self._backend = self._select(backend_name)\n                    ~~~~~~~~~~~~^^^^^^^^^^^^^^\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/kem_backends.py\", line 121, in _select\n    if backend_name!='auto': return BACKEND_REGISTRY[backend_name]()\n                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/kem_backends.py\", line 89, in __init__\n    raise BackendUnavailable(f'fips203 import failed: {e}')\ngce.kem_backends.BackendUnavailable: fips203 import failed: ../../target/debug/libfips203.so: cannot open shared object file: No such file or directory",
+        "stdout": ""
+      },
+      "proof_bundle": {
+        "status": "unavailable",
+        "stderr": "Traceback (most recent call last):\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/kem_backends.py\", line 87, in __init__\n    import fips203\n  File \"/opt/pyvenv/lib/python3.13/site-packages/fips203.py\", line 304, in <module>\n    class _ML_KEM():\n    ...<110 lines>...\n            return (ek, dk)\n  File \"/opt/pyvenv/lib/python3.13/site-packages/fips203.py\", line 327, in _ML_KEM\n    lib = ctypes.CDLL(\"../../target/debug/libfips203.so\")\n  File \"/usr/lib/python3.13/ctypes/__init__.py\", line 390, in __init__\n    self._handle = _dlopen(self._name, mode)\n                   ~~~~~~~^^^^^^^^^^^^^^^^^^\nOSError: ../../target/debug/libfips203.so: cannot open shared object file: No such file or directory\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/mnt/data/gce_public_repo/scripts/02_proof_bundle.py\", line 8, in <module>\n    eng=GodelCryptoEngine(backend_name=backend)\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/engine.py\", line 37, in __init__\n    self.kem=KemBackend(backend_name=backend_name, security_level=security_level)\n             ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/kem_backends.py\", line 118, in __init__\n    self._backend = self._select(backend_name)\n                    ~~~~~~~~~~~~^^^^^^^^^^^^^^\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/kem_backends.py\", line 121, in _select\n    if backend_name!='auto': return BACKEND_REGISTRY[backend_name]()\n                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/kem_backends.py\", line 89, in __init__\n    raise BackendUnavailable(f'fips203 import failed: {e}')\ngce.kem_backends.BackendUnavailable: fips203 import failed: ../../target/debug/libfips203.so: cannot open shared object file: No such file or directory",
+        "stdout": ""
+      },
+      "benchmark": {
+        "status": "unavailable",
+        "stderr": "Traceback (most recent call last):\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/kem_backends.py\", line 87, in __init__\n    import fips203\n  File \"/opt/pyvenv/lib/python3.13/site-packages/fips203.py\", line 304, in <module>\n    class _ML_KEM():\n    ...<110 lines>...\n            return (ek, dk)\n  File \"/opt/pyvenv/lib/python3.13/site-packages/fips203.py\", line 327, in _ML_KEM\n    lib = ctypes.CDLL(\"../../target/debug/libfips203.so\")\n  File \"/usr/lib/python3.13/ctypes/__init__.py\", line 390, in __init__\n    self._handle = _dlopen(self._name, mode)\n                   ~~~~~~~^^^^^^^^^^^^^^^^^^\nOSError: ../../target/debug/libfips203.so: cannot open shared object file: No such file or directory\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/mnt/data/gce_public_repo/scripts/03_benchmark.py\", line 13, in <module>\n    eng=GodelCryptoEngine(backend_name=backend)\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/engine.py\", line 37, in __init__\n    self.kem=KemBackend(backend_name=backend_name, security_level=security_level)\n             ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/kem_backends.py\", line 118, in __init__\n    self._backend = self._select(backend_name)\n                    ~~~~~~~~~~~~^^^^^^^^^^^^^^\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/kem_backends.py\", line 121, in _select\n    if backend_name!='auto': return BACKEND_REGISTRY[backend_name]()\n                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/mnt/data/gce_public_repo/scripts/../src/gce/kem_backends.py\", line 89, in __init__\n    raise BackendUnavailable(f'fips203 import failed: {e}')\ngce.kem_backends.BackendUnavailable: fips203 import failed: ../../target/debug/libfips203.so: cannot open shared object file: No such file or directory",
+        "stdout": ""
+      }
+    }
+  ]
+}

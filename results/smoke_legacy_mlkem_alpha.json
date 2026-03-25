@@ -1,0 +1,6 @@
+{
+  "backend": "legacy_mlkem_alpha",
+  "verify": true,
+  "opened_bit": 1,
+  "commitment_size_bytes": 1153
+}

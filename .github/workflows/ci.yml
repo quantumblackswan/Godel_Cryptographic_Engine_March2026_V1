@@ -1,0 +1,33 @@
+name: gce-reference-ci
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  test-and-paper:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install --upgrade pip && pip install -r requirements.txt pytest hypothesis
+      - env:
+          PYTHONPATH: src
+        run: |
+          pytest -q tests/test_properties.py
+          python scripts/00_backend_probe.py legacy_mlkem_alpha > results/backend_probe_ci.json
+          python scripts/01_smoke_test.py legacy_mlkem_alpha > results/smoke_ci.json
+          python scripts/02_proof_bundle.py legacy_mlkem_alpha 20 > results/proof_ci.json
+          python scripts/03_benchmark.py legacy_mlkem_alpha 20 > results/benchmark_ci.json
+          python scripts/05_probe_wrapper_status.py > results/wrapper_probe_ci.json || true
+          python scripts/check_claims.py paper/gce_commitment_arxiv.tex
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gce-reference-${{ matrix.python-version }}
+          path: |
+            results/
+            paper/gce_commitment_arxiv.tex
+            paper/gce_commitment_arxiv.pdf

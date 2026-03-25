@@ -1,0 +1,11 @@
+{
+  "backend": "legacy_mlkem_alpha",
+  "round_trip": "20/20",
+  "wrong_opening_rejected": "20/20",
+  "tamper_detected": "20/20",
+  "godel_number_uniqueness_sample": "20/20 unique",
+  "backend_presence_test": {
+    "passes": 20,
+    "time_s": 0.017638
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "backend": "legacy_mlkem_alpha",
+  "status": "experimental",
+  "security_level": 768,
+  "public_key_bytes": 1184,
+  "private_key_bytes": 2400,
+  "kem_ciphertext_bytes": 1088,
+  "commitment_body_bytes": 1121,
+  "godel_hash_bytes": 32,
+  "approx_total_commitment_bytes": 1153,
+  "selected_backend_argument": "legacy_mlkem_alpha"
+}

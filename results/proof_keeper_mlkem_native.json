@@ -1,0 +1,11 @@
+{
+  "backend": "keeper_mlkem_native",
+  "round_trip": "50/50",
+  "wrong_opening_rejected": "50/50",
+  "tamper_detected": "50/50",
+  "godel_number_uniqueness_sample": "50/50 unique",
+  "backend_presence_test": {
+    "passes": 20,
+    "time_s": 0.015573
+  }
+}
